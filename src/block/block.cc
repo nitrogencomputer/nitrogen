@@ -7,6 +7,12 @@ bool block_node_exists(Node *genesis_block, Node *target);
 bool block_node_value_exists(Node *genesis_block, std::size_t balance);
 
 template <typename T>
+std::ostream &operator<<(std::ostream &stream, const BlockOps<T> &blockops)
+{
+    stream << blockops.blockstructure.block_id << blockops.blockstructure.block_header << blockops.blockstructure.block_tx_details;
+}
+
+template <typename T>
 std::vector<std::string> BlockOps<T>::create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount)
 {
     std::string empty_tx = "null transaction";
@@ -65,7 +71,7 @@ BlockOps<T> BlockOps<T>::create_new_blockops(Blockstructure bs)
 }
 
 template <typename T>
-Block* create_new_block(BlockOps<T> &blockops)
+Block *create_new_block(BlockOps<T> &blockops)
 {
     Block *new_block_node = new Block();
     if (blockops.blockstructure.block_header == "genesis")
