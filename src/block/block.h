@@ -5,6 +5,7 @@
 #include <string>
 #include <mutex>
 #include <cstddef>
+#include <iomanip>
 #include <forward_list>
 
 typedef struct Node
@@ -19,6 +20,12 @@ typedef struct BlockTxDetails
     Node *receiver;
     std::string tx_hash;
 } BlockTxDetails;
+
+std::ostream& operator<<(std::ostream& stream, const BlockTxDetails& blockTx)
+{
+    stream << std::setw(2) << "sender:" << blockTx.sender << "sender balance:" << blockTx.sender->balance << "receiver:" << blockTx.receiver << "receiver balance:" << blockTx.receiver->balance; 
+    return stream;
+}
 
 typedef struct Blockstructure
 {
@@ -59,7 +66,7 @@ public:
     bool block_node_exists(Node* genesis_block, Node* target);
 
     BlockOps create_new_blockops(Blockstructure blockstructure);
-    BlockOps create_new_transaction(Node* sender, Node* receiver, std::size_t transaction_amount);
+    std::vector<std::string> create_new_transaction(Node* sender, Node* receiver, std::size_t transaction_amount);
    
     friend std::ostream &operator<<(std::ostream &stream, const BlockOps &blockops)
     {

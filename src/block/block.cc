@@ -1,5 +1,12 @@
 #include "block.h"
+#include <sstream>
 #include <stdexcept>
+
+void block_err_msg(const char* msg)
+{
+    perror(msg);
+    exit(1);
+}
 
 template <typename T>
 BlockOps<T>::BlockOps() {}
@@ -29,9 +36,33 @@ bool block_node_exists(Node *genesis_block, Node *target)
 }
 
 template <typename T>
-BlockOps<T> BlockOps<T>::create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount)
+std::vector<std::string> BlockOps<T>::create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount)
 {
-}
+    std::string empty_tx = "null transaction";
+    transactions.push_back(empty_tx);
+    if (!block_node_exists(sender) || !block_node_exists(receiver))
+        block_err_msg("invalid nodes");
+        return transactions;
+    std::size_t sender_bal = sender->balance;
+    std::size_t receiver_bal = receiver->balance;
+    if(sender_bal <= 0 || sender_bal < transaction_amount)
+        block_err_msg("insufficient transaction amount");
+    std::lock_guard<std::mutex> lock(block_mutex);
+    std::size_t rm_bal = sender_bal - transaction_amount;
+    std::size_t ad_bal = receiver_bal + transaction_amount; 
+    
+    BlockTxDetails* tx_construct = new BlockTxDetails();
+    tx_construct->sender = sender;
+    tx_construct->sender->balance = rm_bal;
+    tx_construct->receiver = receiver;
+    tx_construct->receiver->balance = ad_bal;
+
+    std::ostringstream oss;
+    oss << tx_construct;
+    std::string convert_tx_str_bytes = oss.str();
+    transactions.push_back(convert_tx_str_bytes);
+    return transactions;
+}   
 
 template <typename T>
 BlockOps<T> BlockOps<T>::create_new_blockops(Blockstructure bs)
@@ -66,5 +97,5 @@ template <typename T>
 Node* create_new_block(BlockOps<T>& blockops)
 {
     Node* new_block_node = new Node();
-    
+
 }
