@@ -21,9 +21,9 @@ typedef struct BlockTxDetails
     std::string tx_hash;
 } BlockTxDetails;
 
-std::ostream& operator<<(std::ostream& stream, const BlockTxDetails& blockTx)
+std::ostream &operator<<(std::ostream &stream, const BlockTxDetails &blockTx)
 {
-    stream << std::setw(2) << "sender:" << blockTx.sender << "sender balance:" << blockTx.sender->balance << "receiver:" << blockTx.receiver << "receiver balance:" << blockTx.receiver->balance; 
+    stream << std::setw(2) << "sender:" << blockTx.sender << "sender balance:" << blockTx.sender->balance << "receiver:" << blockTx.receiver << "receiver balance:" << blockTx.receiver->balance;
     return stream;
 }
 
@@ -48,8 +48,7 @@ class BlockOps
 private:
     Blockstructure blockstructure;
     std::string prev_hash;
-    std::string nonce;
-    std::string curr_hash;
+    std::string &curr_hash;
     std::vector<std::string> transactions;
 
     std::forward_list<T> data;
@@ -60,14 +59,12 @@ private:
 public:
     BlockOps();
     BlockOps(const BlockOps &block);
-    
-    Node* create_new_block(BlockOps& blockops);
-    bool block_node_value_exists(Node* genesis_block, std::size_t balance);
-    bool block_node_exists(Node* genesis_block, Node* target);
-
+    bool block_node_value_exists(Node *genesis_block, std::size_t balance);
+    bool block_node_exists(Node *genesis_block, Node *target);
+    Block* create_new_block(BlockOps<T> &blockops);
     BlockOps create_new_blockops(Blockstructure blockstructure);
-    std::vector<std::string> create_new_transaction(Node* sender, Node* receiver, std::size_t transaction_amount);
-   
+    std::vector<std::string> create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount);
+
     friend std::ostream &operator<<(std::ostream &stream, const BlockOps &blockops)
     {
         stream << blockops.blockstructure.block_id << blockops.blockstructure.block_header << blockops.blockstructure.block_tx_details;
