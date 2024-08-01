@@ -1,3 +1,6 @@
+#ifndef BLOCK_H
+#define BLOCK_H
+
 #include <iostream>
 #include <memory>
 #include <atomic>
@@ -8,6 +11,10 @@
 #include <iomanip>
 #include <forward_list>
 
+/* implement a forward reference for the class */
+/* for usage inside the block struct construct */
+template <typename T>
+class BlockOps;
 typedef struct Node
 {
     std::size_t balance;
@@ -40,23 +47,27 @@ typedef struct Block
 {
     std::size_t block_hash;
     Block *next_block_node;
+    template<typename T>
+    Block* create_new_block(BlockOps<T> &blockops);
 } Block;
 
 template <typename T>
 class BlockOps
 {
 private:
-    Blockstructure blockstructure;
-    std::string prev_hash;
-    std::string curr_hash;
-    std::vector<std::string> transactions;
-
     std::forward_list<T> data;
     std::vector<T> blocks;
     std::vector<T> genesis;
     std::mutex block_mutex;
 
+    bool validated;
+
 public:
+    Blockstructure blockstructure;
+    std::string prev_hash;
+    std::string curr_hash;  
+    std::vector<std::string> transactions;
+
     BlockOps();
     BlockOps(const BlockOps &block);
     bool block_node_value_exists(Node *genesis_block, std::size_t balance);
@@ -66,3 +77,4 @@ public:
     std::vector<std::string> create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount);
     friend std::ostream &operator<<(std::ostream &stream, const BlockOps &blockops);
 };
+#endif
