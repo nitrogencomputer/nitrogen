@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "../block/block.h" 
+#include "../block/block.hpp" 
 
 namespace nitrogenx
 {

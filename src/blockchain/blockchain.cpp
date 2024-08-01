@@ -1,5 +1,5 @@
-#include "blockchain.h"
-#include "../block/block.h"
+#include "blockchain.hpp"
+#include "../block/block.hpp"
 #include <algorithm>
 
 using namespace nitrogenx;
