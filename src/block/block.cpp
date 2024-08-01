@@ -1,19 +1,21 @@
-#include "block.h"
 #include <sstream>
 #include <stdexcept>
+#include "block.hpp"
 
 void block_err_msg(const char *msg);
-bool block_node_exists(Node *genesis_block, Node *target);
-bool block_node_value_exists(Node *genesis_block, std::size_t balance);
+bool block_node_exists(struct Node *genesis_block, struct Node *target);
+bool block_node_value_exists(struct Node *genesis_block, std::size_t balance);
 
 template <typename T>
 std::ostream &operator<<(std::ostream &stream, const BlockOps<T> &blockops)
 {
-    stream << blockops.blockstructure.block_id << blockops.blockstructure.block_header << blockops.blockstructure.block_tx_details;
+    stream << blockops.blockstructure.block_id 
+           << blockops.blockstructure.block_header 
+           << blockops.blockstructure.block_tx_details;
 }
 
 template <typename T>
-std::vector<std::string> BlockOps<T>::create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount)
+std::vector<std::string> BlockOps<T>::create_new_transaction(struct Node *sender, struct Node *receiver, std::size_t transaction_amount)
 {
     std::string empty_tx = "null transaction";
     transactions.push_back(empty_tx);

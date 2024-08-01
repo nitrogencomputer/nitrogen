@@ -1,3 +1,6 @@
+#ifndef BLOCKCHAIN_HPP 
+#define BLOCKCHAIN_HPP
+
 #include <iostream>
 #include <vector>
 #include "../block/block.hpp" 
@@ -36,3 +39,4 @@ namespace nitrogenx
         std::vector<T> new_block(BlockOps<Blockstructure>& blockops);
     };
 }
+#endif
