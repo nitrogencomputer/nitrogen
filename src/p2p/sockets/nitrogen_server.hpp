@@ -9,6 +9,8 @@
 #include <string>
 #include <thread>
 #include <cstddef>
+#include <stdlib.h>
+#include <unistd.h>
 
 namespace network{
 class NetworkServer{
