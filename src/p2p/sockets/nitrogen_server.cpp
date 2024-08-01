@@ -39,6 +39,8 @@ void NetworkServer::Network_activate_block_server(int argc, char **argv)
         if (ion < 0)
             network_error("write error");
     }
+    close(newsockfd);
+    close(sockfd);
 }
 
 void network_error(const char *msg)
