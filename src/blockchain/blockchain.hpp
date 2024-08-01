@@ -15,7 +15,7 @@ namespace nitrogenx
         virtual std::vector<Block> add_block() = 0;
     };
 
-    // Templated Blockchain class inheriting from BlockchainInterface
+    /* Templated Blockchain class inheriting from BlockchainInterface */
     template <typename T>
     class Blockchain : public BlockchainInterface
     {
