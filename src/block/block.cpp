@@ -18,16 +18,19 @@ template <typename T>
 std::vector<std::string> BlockOps<T>::create_new_transaction(struct Node *sender, struct Node *receiver, std::size_t transaction_amount)
 {
     std::string empty_tx = "null transaction";
-    transactions.push_back(empty_tx);
     if (!block_node_exists(sender) || !block_node_exists(receiver))
+    {
         block_err_msg("invalid nodes");
-    return transactions;
+        transactions.push_back(empty_tx);
+        return transactions;
+    }
     std::size_t sender_bal = sender->balance;
     std::size_t receiver_bal = receiver->balance;
     if (sender_bal <= 0 || sender_bal < transaction_amount)
         block_err_msg("insufficient transaction amount");
-    std::lock_guard<std::mutex> lock(block_mutex);
+    std::unique_lock<std::mutex> lck(block_mutex);
     std::size_t rm_bal = sender_bal - transaction_amount;
+    lck.unlock();
     std::size_t ad_bal = receiver_bal + transaction_amount;
 
     BlockTxDetails *tx_construct = new BlockTxDetails();

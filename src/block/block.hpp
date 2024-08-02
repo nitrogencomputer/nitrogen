@@ -10,6 +10,9 @@
 #include <cstddef>
 #include <iomanip>
 #include <forward_list>
+#include <chrono>
+
+using namespace std::chrono;
 
 /* implement a forward reference for the class */
 /* for usage inside the block struct construct */
@@ -26,6 +29,12 @@ struct BlockTxDetails
     Node *sender;
     Node *receiver;
     std::string tx_hash;
+    BlockTxDetails& operator=(const BlockTxDetails& other){
+        this->receiver = other.receiver;
+        this->sender = other.sender;
+        this->tx_hash = other.tx_hash;
+        return *this;
+    }
 };
 
 std::ostream &operator<<(std::ostream &stream, const BlockTxDetails &blockTx)
@@ -45,10 +54,11 @@ std::ostream &operator<<(std::ostream &stream, const BlockTxDetails &blockTx)
 struct Blockstructure
 {
     int block_id;
-    time_t transaction_time;
+    steady_clock::time_point transaction_time;
     std::size_t tx_amount;
     std::string block_header;
     BlockTxDetails block_tx_details;
+    Blockstructure& operator=(const Blockstructure& bs){}
 };
 
 struct Block
