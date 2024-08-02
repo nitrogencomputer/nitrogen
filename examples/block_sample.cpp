@@ -7,7 +7,7 @@ using namespace std::chrono;
 
 void block_sample()
 {
-     struct Block* new_block_init = new Block();
+    struct Block* new_block_init = new Block();
     Blockstructure* new_block_struct = new Blockstructure();
     new_block_struct->block_id= 1;
     new_block_struct->transaction_time = high_resolution_clock::now();
