@@ -8,6 +8,6 @@ Nitrogen is been built as an experimental LayerOne blockchain framework with sim
 # Features and statuses
 | completed     | Feature |
 | ---        | ---       |
-| <style>span[class="checked"]{color: green;}</style> | Block      |
+| :white_check_mark: | Block      |
 | :white_check_mark: | Blockchain  |
 | :white_check_mark: | Sockets P2P |
