@@ -35,6 +35,7 @@ void broadcast_block_creation(int argc, char** argv)
     while(poll_incoming){
         memset(buffer, 0, sizeof(buffer));
         ios = read(newsockfd, buffer, strlen(buffer));
+        std::cout << buffer << std::endl;
         if (ios < 0) perror("read err"); exit(1);
         fgets(buffer, sizeof(buffer), stdin);
         ios = write(newsockfd,buffer,strlen(buffer));
