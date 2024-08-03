@@ -10,46 +10,64 @@
 #include <cstddef>
 #include <iomanip>
 #include <forward_list>
+#include <chrono>
+
+using namespace std::chrono;
 
 /* implement a forward reference for the class */
 /* for usage inside the block struct construct */
 template <typename T>
 class BlockOps;
-typedef struct Node
+struct Node
 {
     std::size_t balance;
     Node *preceding_node;
-} Node;
+};
 
-typedef struct BlockTxDetails
+struct BlockTxDetails
 {
     Node *sender;
     Node *receiver;
     std::string tx_hash;
-} BlockTxDetails;
+    BlockTxDetails& operator=(const BlockTxDetails& other){
+        this->receiver = other.receiver;
+        this->sender = other.sender;
+        this->tx_hash = other.tx_hash;
+        return *this;
+    }
+};
 
 std::ostream &operator<<(std::ostream &stream, const BlockTxDetails &blockTx)
 {
-    stream << std::setw(2) << "sender:" << blockTx.sender << "sender balance:" << blockTx.sender->balance << "receiver:" << blockTx.receiver << "receiver balance:" << blockTx.receiver->balance;
+    stream << std::setw(2) 
+           << "sender:" 
+           << blockTx.sender 
+           << "sender balance:" 
+           << blockTx.sender->balance 
+           << "receiver:" 
+           << blockTx.receiver 
+           << "receiver balance:" 
+           << blockTx.receiver->balance;
     return stream;
 }
 
-typedef struct Blockstructure
+struct Blockstructure
 {
     int block_id;
-    time_t transaction_time;
+    steady_clock::time_point transaction_time;
     std::size_t tx_amount;
     std::string block_header;
     BlockTxDetails block_tx_details;
-} Blockstructure;
+    Blockstructure& operator=(const Blockstructure& bs){}
+};
 
-typedef struct Block
+struct Block
 {
     std::size_t block_hash;
     Block *next_block_node;
     template<typename T>
     Block* create_new_block(BlockOps<T> &blockops);
-} Block;
+};
 
 template <typename T>
 class BlockOps
@@ -59,7 +77,6 @@ private:
     std::vector<T> blocks;
     std::vector<T> genesis;
     std::mutex block_mutex;
-
     bool validated;
 
 public:

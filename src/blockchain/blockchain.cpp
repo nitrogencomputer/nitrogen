@@ -46,7 +46,7 @@ std::vector<T> remove_block(std::vector<Block *> blockchain, std::size_t hash)
 /* handles the creation of a new block from */
 /* pre existing block operation data initiated */
 template <typename T>
-std::vector<T> nitrogenx::Blockchain<T>::new_block(BlockOps<Blockstructure> &blockops)
+std::vector<T> Blockchain<T>::new_block(BlockOps<Blockstructure> &blockops)
 {
     /* perform pre block creation validation */
     /* if the header is genesis throw exception */
