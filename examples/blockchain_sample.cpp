@@ -41,7 +41,7 @@ void blockchain_sample()
         std::cout << new_block[i] << std::endl;
 }
 
-int main(int argc, char** argv)
+int blockchain_sample_test(int argc, char** argv)
 {
    blockchain_sample();
    return 0;

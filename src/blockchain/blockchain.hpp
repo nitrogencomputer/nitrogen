@@ -21,9 +21,6 @@ namespace nitrogenx
     public:
         Blockchain();
         Blockchain(const Blockchain& blockc);
-        friend std::ostream& operator<<(std::ostream& stream, const Block& blockc){
-            stream << blockc.block_hash;
-        }
         std::vector<T> blockchain(BlockOps<T>& blockops) override;
         std::vector<T> remove_block(std::vector<Block*> blockchain, std::size_t hash) override;
         std::vector<T> new_block(BlockOps<Blockstructure>& blockops) override;

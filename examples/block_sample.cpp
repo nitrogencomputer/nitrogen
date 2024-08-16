@@ -78,7 +78,7 @@ void block_sample(int cmd, char** cmdargs)
     free(new_block_init);
 }
 
-int main(int argc, char** argv)
+int block_sample_test(int argc, char** argv)
 {
     if(argc < 2) perror("invalid no of args");exit(1);
     block_sample(argc, argv);
