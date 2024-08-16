@@ -1,5 +1,4 @@
 #include "blockchain.hpp"
-#include "../block/block.hpp"
 #include <algorithm>
 
 using namespace nitrogenx;
@@ -56,11 +55,4 @@ void nitrogen_error_stack(const char *msg)
 {
     perror(msg);
     exit(1);
-}
-
-template <typename T>
-std::ostream& operator<<(std::ostream& stream, const Block& blockc)
-{
-    stream << blockc.block_hash 
-           << blockc.next_block_node;
 }

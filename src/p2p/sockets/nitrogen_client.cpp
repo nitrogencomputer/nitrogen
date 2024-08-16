@@ -1,6 +1,7 @@
 #include "nitrogen_client.hpp"
+#include <cstring>
 
-void NetworkClient::Network_activate_block_client(int argc, char **argv)
+void NetworkClient::Network_activate_block_client(uint16_t argc, std::vector<int> arg2)
 {
     if (argc < 3)
         client_error("invalid args");
@@ -12,13 +13,15 @@ void NetworkClient::Network_activate_block_client(int argc, char **argv)
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0)
         client_error("socket error");
-    portno = atoi(argv[2]);
+    portno = arg2[2] ;
     memset((char *)&client, 0, sizeof(client));
     client->sin_family = AF_INET;
     memcpy((char *)server->h_addr, (char *)&client->sin_addr, server->h_length);
     client->sin_addr.s_addr = INADDR_ANY;
     client->sin_port = htons(portno);
-    server = gethostbyname(argv[2]);
+    std::string str = std::to_string(arg2[2]);
+    char* cstr = strdup(str.c_str());
+    server = gethostbyname(cstr);
     if (server == nullptr)
         client_error("server error");
     if (connect(sockfd, (struct sockaddr *)&client, sizeof(client)) < 0)
@@ -34,5 +37,6 @@ void NetworkClient::Network_activate_block_client(int argc, char **argv)
         if (ion < 0)
             client_error("cread error");
     }
+    free(cstr);
     close(sockfd);
 }

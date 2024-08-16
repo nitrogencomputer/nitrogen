@@ -11,13 +11,13 @@
 #include <cstddef>
 #include <stdlib.h>
 #include <unistd.h>
+#include <cstdint>
+#include <vector>
 
 class NetworkClient{
     public: 
     NetworkClient(const NetworkClient& netserve);
-    void Network_activate_block_client(int argc, char **argv);
+    void Network_activate_block_client(uint16_t argc, std::vector<int> arg2);
     void client_error(const char* msg){perror(msg); exit(1);}
 };
-
-int main(){}
 #endif

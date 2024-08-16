@@ -19,6 +19,4 @@ class NetworkServer{
     void Network_activate_block_server(int argc, char **argv);
 };
 }
-
-int main(){}
 #endif

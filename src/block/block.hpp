@@ -35,19 +35,6 @@ struct BlockTxDetails
     }
 };
 
-std::ostream &operator<<(std::ostream &stream, const BlockTxDetails &blockTx)
-{
-    stream << std::setw(2) 
-           << "sender:" 
-           << blockTx.sender 
-           << "sender balance:" 
-           << blockTx.sender->balance 
-           << "receiver:" 
-           << blockTx.receiver 
-           << "receiver balance:" 
-           << blockTx.receiver->balance;
-    return stream;
-}
 
 struct Blockstructure
 {
@@ -56,7 +43,6 @@ struct Blockstructure
     std::size_t tx_amount;
     std::string block_header;
     BlockTxDetails block_tx_details;
-    Blockstructure& operator=(const Blockstructure& bs){}
 };
 
 struct Block
@@ -90,6 +76,6 @@ public:
     Block* create_new_block(BlockOps<T> &blockops);
     BlockOps create_new_blockops(Blockstructure blockstructure);
     std::vector<std::string> create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount);
-    friend std::ostream &operator<<(std::ostream &stream, const BlockOps &blockops);
+    inline friend std::ostream &operator<<(std::ostream &stream, const BlockOps &blockops);
 };
 #endif
