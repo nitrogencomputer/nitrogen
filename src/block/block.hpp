@@ -14,8 +14,6 @@
 
 using namespace std::chrono;
 
-/* implement a forward reference for the class */
-/* for usage inside the block struct construct */
 template <typename T>
 class BlockOps;
 struct Node
