@@ -27,7 +27,8 @@ struct BlockTxDetails
     Node *sender;
     Node *receiver;
     std::string tx_hash;
-    BlockTxDetails& operator=(const BlockTxDetails& other){
+    BlockTxDetails &operator=(const BlockTxDetails &other)
+    {
         this->receiver = other.receiver;
         this->sender = other.sender;
         this->tx_hash = other.tx_hash;
@@ -35,22 +36,29 @@ struct BlockTxDetails
     }
 };
 
-
 struct Blockstructure
 {
     int block_id;
     steady_clock::time_point transaction_time;
     std::size_t tx_amount;
     std::string block_header;
-    BlockTxDetails block_tx_details;
+    BlockTxDetails *block_tx_details;
 };
 
-struct Block
+template <typename T>
+class Block
 {
+public:
     std::size_t block_hash;
     Block *next_block_node;
-    template<typename T>
-    Block* create_new_block(BlockOps<T> &blockops);
+    std::vector<std::string> transactions;
+    Block *create_new_block(BlockOps<T>* blockops);
+    std::vector<std::string> create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount);
+    inline std::ostream &operator<<(std::ostream &os)
+    {
+        os << "Block Hash: " << this->block_hash;
+        return os;
+    }
 };
 
 template <typename T>
@@ -60,22 +68,18 @@ private:
     std::forward_list<T> data;
     std::vector<T> blocks;
     std::vector<T> genesis;
-    std::mutex block_mutex;
     bool validated;
 
 public:
     Blockstructure blockstructure;
     std::string prev_hash;
-    std::string curr_hash;  
-    std::vector<std::string> transactions;
+    std::string curr_hash;
 
     BlockOps();
     BlockOps(const BlockOps &block);
     bool block_node_value_exists(Node *genesis_block, std::size_t balance);
     bool block_node_exists(Node *genesis_block, Node *target);
-    Block* create_new_block(BlockOps<T> &blockops);
-    BlockOps create_new_blockops(Blockstructure blockstructure);
-    std::vector<std::string> create_new_transaction(Node *sender, Node *receiver, std::size_t transaction_amount);
+    BlockOps create_new_blockops(Blockstructure *blockstructure);
     inline friend std::ostream &operator<<(std::ostream &stream, const BlockOps &blockops);
 };
 #endif
